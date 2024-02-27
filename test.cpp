@@ -6,7 +6,106 @@
 #include <iostream>
 
 using namespace std ;
+//链表
+struct ListNode
+    {
+        int val;
+        ListNode *next;
+        ListNode(int x):val(x),next(NULL){}
+    };
+    //设计链表
+class MyLinkedList {
+    struct ListNode
+    {
+        int val;
+        ListNode *next;
+        ListNode(int x):val(x),next(NULL){}
+    };
+public:
+    MyLinkedList() {
+    dummyhead = new ListNode(0);
+    size_=0;
 
+    }
+    
+    int get(int index) {
+        if(index>size_-1 )
+        {
+            return -1;
+        }
+        ListNode* cur = dummyhead->next;
+        while(index--)
+        {
+            cur=cur->next;
+        }
+        return cur->val;
+
+    }
+    
+    void addAtHead(int val) {
+        ListNode* newList = new ListNode(val);
+        newList->next = dummyhead->next;
+        dummyhead->next = newList;
+        size_++;
+        printf("size: %d\r\n",size_);
+
+    }
+    
+    void addAtTail(int val) {
+        ListNode* tailList = new ListNode(val);
+        ListNode* temp = dummyhead;
+        while(temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=tailList;
+        size_++;
+    }
+    
+    void addAtIndex(int index, int val) {
+        if(index==size_-1)
+        {
+           addAtTail(val); 
+        }
+        ListNode* pre = dummyhead;
+        ListNode* temp = dummyhead;
+        ListNode* newtemp = new ListNode(val);
+        while(index--)
+        {
+            pre=pre->next;
+        }
+            temp = pre->next;
+            pre->next = newtemp;
+            newtemp->next = temp;
+        size_++;
+        
+    }
+    
+    void deleteAtIndex(int index) {
+        if(index>size_-1)
+        {
+           return;
+        }
+        ListNode* cur = dummyhead;
+        while(index--)
+        {
+            cur = cur->next;            
+        }
+        ListNode* temp = cur->next;
+        cur->next = cur->next->next;
+        cur->next=temp;
+        delete temp;
+        //delete命令指示释放了tmp指针原本所指的那部分内存，
+        //被delete后的指针tmp的值（地址）并非就是NULL，而是随机值。也就是被delete后，
+        //如果不再加上一句tmp=nullptr,tmp会成为乱指的野指针
+        //如果之后的程序不小心使用了tmp，会指向难以预想的内存空间
+        temp=nullptr;
+        size_--;
+    }
+    private:
+    int size_;
+    ListNode* dummyhead;
+};
 class Solution {
 public:
 
@@ -45,7 +144,7 @@ public:
             if (nums[i] > 0) {
                 return result;
             }
-           
+
             // 正确去重a方法
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
@@ -140,7 +239,7 @@ public:
                 res[i--]= nums[left]*nums[left];
                 left ++;
             }
-            
+
         }
         return res;
     }
@@ -173,7 +272,7 @@ public:
         }        
         return res;
     }
-    
+
     //螺旋矩阵2
     vector<vector<int>> generateMatrix(int n)
     {
@@ -181,14 +280,122 @@ public:
         int loop = n /2;
         int startx=0,starty=0;
         int i,j;
+        int offset=1;
+        int count =1;
         while(loop--)
         {
             i=startx;
             j=starty;
-            for
+            for(;j<n-offset;j++)
+            {
+                res[i][j]=count++;
+            }
+            for(;i<n-offset;i++)
+            {
+                res[i][j]=count++;
+            }
+            for(;j>starty;j--)
+            {
+                res[i][j]=count++;
+            }
+            for(;i>startx;i--)
+            {
+                res[i][j]=count++;
+            }
+            startx++;
+            starty++;
+            offset++;
         }
+        if(n%2 == 1)
+        {
+            res[n/2][n/2]=n*n;
+        }
+        return res;
     }
+
+
+    //移除链表元素
+    ListNode* removeElements(ListNode* head, int val) {
+        if(head->next==NULL)
+        {
+            return NULL;
+        }
+        ListNode* pre = NULL;
+        while(head !=NULL && head->val==val)
+        {
+            head = head->next;
+
+        }
+        ListNode* cur = head;
+        
+        while(cur!= NULL)
+        {
+            if(cur->val == val)
+            {
+                
+                pre->next=cur->next;
+                delete cur;
+                cur=pre->next;
+            }
+            else
+            {
+            pre=cur;
+            cur=cur->next;
+            }
+            
+        }
+        return head;
+    }
+
+    //反转链表
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL)
+        {
+            return NULL;
+        }
+        ListNode* cur = head;
+        ListNode* temp = head;
+        ListNode* pre = NULL;
+        while(cur!=NULL)
+        {
+            temp=cur->next;
+            cur->next=pre;
+            pre=cur;
+            cur=temp;
+        }
+        
+        return pre;
+
+    }
+    
+    //两两交换链表中的节点
+    ListNode* swapPairs(ListNode* head) {
+        if(head->next==NULL || head->next->next==NULL)
+        {
+            return head;
+        }
+        ListNode* cur = new ListNode(-1);
+        cur->next = head;
+        ListNode* res = head->next;
+        while(cur->next != nullptr && cur->next->next != nullptr)
+        {
+            ListNode* temp1=cur->next;
+            ListNode* temp2=cur->next->next->next;
+            
+            cur->next=cur->next->next;
+            cur->next->next = temp1;
+            cur->next->next->next = temp2;
+            cur = cur->next->next;
+
+        }
+        return res;
+
+    }
+
+    
 };
+
+
 
 int main()
 {
@@ -199,15 +406,50 @@ int main()
     vector<int> nums = {1,1,1,1,1,1,1,1};
 
     // 调用 threeSum 方法
-    // vector<vector<int>> result = solution.threeSum(nums);
+    vector<vector<int>> result = solution.generateMatrix(2);
     int target = 11;
-    int result= solution.minSubArrayLen(nums,target);
+    // int result= solution.minSubArrayLen(nums,target);
 
     // 输出结果
-    // for (const auto& triplet : result) {
-    //     // printf("[%d, %d, %d]\n", triplet[0], triplet[1], triplet[2]);
-    //     printf("%d ",triplet);
+    for (const auto& res : result) {
+        // printf("[%d, %d, %d]\n", triplet[0], triplet[1], triplet[2]);
+    // cout << "[";
+    // for (const auto& value : res) {
+    //     cout << value << ", ";
     // }
-    printf("res = %d",result);
+    // cout << "]" << endl;
+        // printf("%d ",res);
+    }
+    // printf("res = %d",result);
+
+    //链表
+    int val = 6;
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next = new ListNode(6);
+    head->next->next->next->next->next->next = new ListNode(7);
+    ListNode* resList = solution.swapPairs(head);
+    while (resList != nullptr) 
+    { // 当前节点不为空时
+        std::cout << resList->val << " "; // 打印当前节点的值
+        resList = resList->next; // 移动到下一个节点
+    }
+    std::cout << std::endl;
+
+    //设计链表 
+    // MyLinkedList* obj = new MyLinkedList();
+    // obj->addAtHead(1);
+    // std::cout << "Value at index 1: " << obj->get(0) << std::endl;
+    // obj->addAtTail(3);
+    // obj->addAtIndex(1, 2);    //链表变为1->2->3
+    // std::cout << "Value at index 1: " << obj->get(0) << std::endl;
+    // std::cout << "Value at index 2: " << obj->get(1) << std::endl;
+    // std::cout << "Value at index 3: " << obj->get(2) << std::endl;
+    // obj->deleteAtIndex(1);    // 现在链表变为1->3
+    // std::cout << "Value at index 1 after deletion: " << obj->get(1) << std::endl;
+
     return 0;
 }
