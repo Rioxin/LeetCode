@@ -410,47 +410,72 @@ public:
         }
         slow->next=slow->next->next;
         return pre->next;
+    }
 
     //链表相交
-    // ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-    //     ListNode* curA=headA;
-    //     ListNode* curB=headB;
-    //     int lenA=0,lenB=0,gap;
-    //     while(curA!=NULL)
-    //     {
-    //         lenA++;
-    //         curA=curA->next;
-    //     }
-    //     while(curB!=NULL)
-    //     {
-    //         lenB++;
-    //         curB=curB->next;
-    //     }
-    //     // curA=headA;
-    //     // curB=headB;
-    //     if(lenA<lenB)
-    //     {
-    //         swap(lenA,lenB);
-    //         swap(curA,curB);
-    //     }
-    //     gap=lenA-lenB;
-    //     while(gap--)
-    //     {
-    //         curA=curA->next;
-    //     }
-    //     while(curA!=NULL)
-    //     {
-    //         if(curA == curB)
-    //         {
-    //             return curA;
-    //         }
-    //         curA=curA->next;
-    //         curB=curB->next;
-    //     }
-    //     return NULL;
-    // }
-
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* curA=headA;
+        ListNode* curB=headB;
+        int lenA=0,lenB=0,gap;
+        while(curA!=NULL)
+        {
+            lenA++;
+            curA=curA->next;
+        }
+        while(curB!=NULL)
+        {
+            lenB++;
+            curB=curB->next;
+        }
+        // curA=headA;
+        // curB=headB;
+        if(lenA<lenB)
+        {
+            swap(lenA,lenB);
+            swap(curA,curB);
+        }
+        gap=lenA-lenB;
+        while(gap--)
+        {
+            curA=curA->next;
+        }
+        while(curA!=NULL)
+        {
+            if(curA == curB)
+            {
+                return curA;
+            }
+            curA=curA->next;
+            curB=curB->next;
+        }
+        return NULL;
     }
+
+    //环形链表
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        ListNode* index1 = head;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+            if(fast == slow)
+            {
+                ListNode* index2 = slow;
+                while(index1!=index2)
+                {
+                    index1=index1->next;
+                    index2=index2->next;
+                }
+                return index1;
+            }
+
+        }
+        return NULL;
+    }
+
+    
 };
 
 
