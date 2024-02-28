@@ -370,29 +370,87 @@ public:
     
     //两两交换链表中的节点
     ListNode* swapPairs(ListNode* head) {
-        if(head->next==NULL || head->next->next==NULL)
-        {
-            return head;
-        }
-        ListNode* cur = new ListNode(-1);
-        cur->next = head;
-        ListNode* res = head->next;
-        while(cur->next != nullptr && cur->next->next != nullptr)
-        {
-            ListNode* temp1=cur->next;
-            ListNode* temp2=cur->next->next->next;
-            
-            cur->next=cur->next->next;
-            cur->next->next = temp1;
-            cur->next->next->next = temp2;
-            cur = cur->next->next;
+      if(head==NULL || head->next==NULL){
+      return head;
+      }
+     ListNode* cur = new ListNode(-1);
+     ListNode* res = head->next;
+     cur->next = head;
+     while(cur->next!=NULL && cur->next->next!=NULL)
+     {
+        ListNode* temp1=cur->next;
+        ListNode* temp2=cur->next->next->next;
+        cur->next=cur->next->next;
+        cur->next->next=temp1;
+        cur->next->next->next=temp2;
+        cur=cur->next->next;
+     }
+     return res;
+    }    
 
+    //删除链表的倒数第N个节点
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* pre=new ListNode(-1);
+        pre->next=head;
+        ListNode* fast=pre;
+        ListNode* slow=pre;
+        while(n--)
+        {
+            if(fast->next==NULL)
+            {
+                return head;
+            }
+            fast=fast->next;
         }
-        return res;
+        fast=fast->next;
+        while(fast!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next;
+        }
+        slow->next=slow->next->next;
+        return pre->next;
+
+    //链表相交
+    // ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+    //     ListNode* curA=headA;
+    //     ListNode* curB=headB;
+    //     int lenA=0,lenB=0,gap;
+    //     while(curA!=NULL)
+    //     {
+    //         lenA++;
+    //         curA=curA->next;
+    //     }
+    //     while(curB!=NULL)
+    //     {
+    //         lenB++;
+    //         curB=curB->next;
+    //     }
+    //     // curA=headA;
+    //     // curB=headB;
+    //     if(lenA<lenB)
+    //     {
+    //         swap(lenA,lenB);
+    //         swap(curA,curB);
+    //     }
+    //     gap=lenA-lenB;
+    //     while(gap--)
+    //     {
+    //         curA=curA->next;
+    //     }
+    //     while(curA!=NULL)
+    //     {
+    //         if(curA == curB)
+    //         {
+    //             return curA;
+    //         }
+    //         curA=curA->next;
+    //         curB=curB->next;
+    //     }
+    //     return NULL;
+    // }
 
     }
-
-    
 };
 
 
@@ -431,7 +489,7 @@ int main()
     head->next->next->next->next = new ListNode(5);
     head->next->next->next->next->next = new ListNode(6);
     head->next->next->next->next->next->next = new ListNode(7);
-    ListNode* resList = solution.swapPairs(head);
+    ListNode* resList = solution.removeNthFromEnd(head,1);
     while (resList != nullptr) 
     { // 当前节点不为空时
         std::cout << resList->val << " "; // 打印当前节点的值
