@@ -191,6 +191,67 @@ public:
     }
     return res;
     }
+
+    //四数之和
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> res;
+        if(nums.size()<4)
+        {
+            return res;
+        }    
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size();i++ )
+        {
+            if(nums[i]>0&&nums[i]>target)
+            {
+                break;
+            }
+            if(i>0 && nums[i]==nums[i-1])
+            {
+                continue;
+            }
+            for(int j = i+1;j<nums.size();j++)
+            {
+                if(nums[i]>0&&nums[i]+nums[j]>target)
+            {
+                break;
+            }
+                if(j>i+1 && nums[j]==nums[j-1])
+                {
+                    continue;
+                }
+                int left=j+1;
+                int right = nums.size()-1;
+                while(left<right)
+                {
+                    if((long)nums[i]+nums[j]+nums[left]+nums[right]<target)
+                    {
+                        left++;
+                    }
+                    else if((long)nums[i]+nums[j]+nums[left]+nums[right]>target)
+                    {
+                        right--;
+                    }
+                    else 
+                    {
+                        res.push_back({nums[i],nums[j],nums[left],nums[right]});
+                        while(left<right && nums[left]==nums[left+1])
+                        {
+                            left++;
+                        }
+                        while(left<right && nums[right]==nums[right-1])
+                        {
+                            right--;
+                        }                       
+                        left++;
+                        right--;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 };
 
 
@@ -201,7 +262,7 @@ int main()
     Solution solution;
 
     // 准备测试数据v
-    vector<int> nums = {-1,0,1,2,-1,-4,-2,-3,3,0,4};
+    vector<int> nums = {-3,-1,0,2,4,5};
     // 创建测试用例
     vector<int> nums1 = {1, 2, 2, 1};
     vector<int> nums2 = {2, 2};
@@ -211,7 +272,7 @@ int main()
     string s = "anagram";
     string t = "nagaram";
     // 调用对象方法
-     vector<vector<int>> result = solution.threeSum(nums);
+     vector<vector<int>> result = solution.fourSum(nums,1);
     int target = 11;
     // bool result= solution.isHappy(2);
 
@@ -221,8 +282,8 @@ int main()
         {
             cout << n << " ";
         }
+        cout << endl;
     }
-    cout << endl;
     // printf("res = %d",result);
     // cout << (result ? "true" : "false") << endl;
     
