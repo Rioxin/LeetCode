@@ -89,13 +89,107 @@ public:
     int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
         unordered_map<int,int> hash;
         int n = nums1.size();
-        for(int i = 0;i<n;i++)
+        int count = 0;
+        for(int a :nums1)
         {
-            for(int j = 0;j<n;j++)
+            for(int b :nums2)
             {
-                
+                hash[a+b]++;
             }
         }
+        for(int c :nums3)
+        {
+            for(int d :nums4)
+            {
+                int target = -c-d;
+                if(hash.find(target)!=hash.end())
+                {
+                    count+=hash[target];
+                }
+            }
+        }
+        return count;
+    }
+
+    //赎金信
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char,int> hash;
+        for(char a :magazine)
+        {
+            hash[a]++;
+        }
+        for(char b : ransomNote)
+        {
+             if(hash.find(b)!=hash.end())
+                {
+                    hash[b]--;
+                }
+        }
+        for (const auto& pair : hash) {
+                if (pair.second < 0) {
+                    return false; // 只要发现一个值不为0，就返回false
+                }
+            }
+        return true; // 所有值都为0，返回true
+    }
+
+    //三数之和
+    vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(),nums.end());   
+    for(int num :nums)
+    {
+        cout<<num<<" ";
+    } 
+    cout<<endl;
+    vector<vector<int>> res={};
+    for(int i =0;i<nums.size();i++)
+    {
+        if(i>0&&nums[i]==nums[i-1])
+        {
+            continue;
+        }
+         cout<<"nums[i] = "<< nums[i] <<endl;
+        int target= -nums[i];
+        int left = i+1;
+        int right = nums.size()-1;
+        while(left<right)
+        {
+            cout<<"left = "<< nums[left]<<" right = "<< nums[right] <<endl;
+            if(left>i+1&&nums[left]==nums[left-1])
+            {
+                left++;
+                continue;
+            }
+            if(right<nums.size()-1&&nums[right]==nums[right+1])
+            {
+                right--;
+                continue;
+            }
+            if(nums[left]+nums[right]==target)
+            {
+                vector<int> temp = {nums[i],nums[left],nums[right]};
+                cout<<"temp = ";
+                for(int n :temp)
+                {
+                    cout << n << " ";
+                }
+                cout<<endl;
+                res.push_back(temp);
+                left++;
+                right--;
+            }
+            else if(nums[left]+nums[right]<target)
+            {
+                left++;
+            }
+            else if(nums[left]+nums[right]>target)
+            {
+                right--;
+            }
+
+        } 
+    }
+    return res;
     }
 };
 
@@ -107,7 +201,7 @@ int main()
     Solution solution;
 
     // 准备测试数据v
-    vector<int> nums = {1,1,1,1,1,1,1,1};
+    vector<int> nums = {-1,0,1,2,-1,-4,-2,-3,3,0,4};
     // 创建测试用例
     vector<int> nums1 = {1, 2, 2, 1};
     vector<int> nums2 = {2, 2};
@@ -117,17 +211,20 @@ int main()
     string s = "anagram";
     string t = "nagaram";
     // 调用对象方法
-    // vector<vector<int>> result = solution.generateMatrix(2);
+     vector<vector<int>> result = solution.threeSum(nums);
     int target = 11;
-    bool result= solution.isHappy(2);
+    // bool result= solution.isHappy(2);
 
     // 输出结果
-    // for (int num : result) {
-    //     cout << num << " ";
-    // }
-    // cout << endl;
+    for (vector<int> num : result) {
+        for(int n :num)
+        {
+            cout << n << " ";
+        }
+    }
+    cout << endl;
     // printf("res = %d",result);
-    cout << (result ? "true" : "false") << endl;
+    // cout << (result ? "true" : "false") << endl;
     
 
     return 0;
