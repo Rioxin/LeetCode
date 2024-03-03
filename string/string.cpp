@@ -18,21 +18,24 @@ public:
 
     //反转字符串2
     string reverseStr(string s, int k) {
-        if(s.size()<2*k)
-        {
-            return s;
-        }
         for(int i =0;i<s.size();i+=(2*k))
         {
             if(i+k<=s.size())
             {
-                reverse(s.begin()+i,s[i+k]);
+                reverse(s.begin()+i,s.begin()+i+k);
             }
             else
             {
-                reverse(s[i+k+1],s.end());
+                reverse(s.begin()+i,s.end());
             }
         }
+        return s;
+    }
+    
+    //反转字符串中的单词
+    string reverseWords(string s) {
+
+    return s;
     }
 
 
@@ -47,7 +50,7 @@ int main()
 
     // 示例输入字符串
     vector<char> input = {'h', 'e', 'l', 'l', 'o'};
-    string s = "abcdefg";
+    string s = "  abcdefg ";
     int k = 2;
     // 打印原始字符串
     for (char c : s) {
@@ -56,11 +59,11 @@ int main()
     cout << endl;
 
     // 调用反转函数
-    solution.reverseString(input);
-    res = solution.reverseStr(s,k);
+    string ress=solution.reverseWords(s);
+    string res = solution.reverseStr(s,k);
 
     // 打印反转后的字符串
-    for (char c : res) {
+    for (char c : ress) {
         cout << c;
     }
     cout << endl;
