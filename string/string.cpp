@@ -33,10 +33,6 @@ public:
     }
     
     //反转字符串中的单词
-<<<<<<< HEAD
-    string reverseWords(string s) {
-
-=======
     void reverses(string& s,int start,int end)
     {
         for(int i =start,j= end;i<j;i++,j--)
@@ -72,7 +68,6 @@ public:
             }
         }
         reverses(s,pre,s.size()-1); 
->>>>>>> 2b2d0b3f65e2c9d256ee4ade332e88c90173610c
     return s;
     }
 
@@ -118,8 +113,32 @@ public:
     }
 
     //重复的子字符串
+    //手撸KMP的next数组
+    void getnext(int* next,const string s)
+    {
+        int j = -1;
+        for(int i = 1;i<s.size();i++)
+        {
+            while(j>=0&&s[j+1]!=s[i])
+            {
+                j=next[j];
+            }
+            if(s[j+1]==s[i])
+            {
+                j++;
+            }
+            next[i]=j;
+        }
+    }
     bool repeatedSubstringPattern(string s) {
-
+        int next[s.size()];
+        int n = s.size();
+        getnext(next,s);
+        if(next[n-1]!=-1 && n % (n-next[n]-1)==0)
+        {
+            return true;
+        }
+        return false;
     }
 
 };
@@ -158,9 +177,6 @@ int main()
     }
     cout << endl;
 
-    return 0;
-
-    
 
     return 0;
 }
