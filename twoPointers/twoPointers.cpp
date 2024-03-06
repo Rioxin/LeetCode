@@ -50,38 +50,11 @@ public:
         }
     }
     string reverseWords(string s) {
-<<<<<<< HEAD
-        int slow = 0;
-=======
         int slow=0;
->>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
         for(int i =0;i<s.size();i++)
         {
             if(s[i]!=' ')
             {
-<<<<<<< HEAD
-            if(slow!=0)
-            s[slow++]=' ';
-            while(i<s.size()&&s[i]!=' ')
-            {
-                s[slow++]=s[i++];
-            }
-            }
-        }
-        s.resize(slow);
-        cout<<slow<<endl;
-        reverses(s,0,s.size()-1);
-        int pre = 0;
-        for(int i=0;i<s.size();i++ )
-        {
-            if(s[i]==' ')
-            {
-              reverses(s,pre,i-1);  
-              pre=i+1;
-            }
-        }
-        reverses(s,pre,s.size()-1);  
-=======
                 if(slow!=0)
                 {
                     s[slow++]=' ';
@@ -104,28 +77,11 @@ public:
             }
         }
         reverses(s,pre,s.size()-1);
->>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
         return s;
     }
    
     //反转链表(有问题)
     ListNode* reverseList(ListNode* head) {
-<<<<<<< HEAD
-        ListNode* pre = new ListNode(-1);
-        pre->next=head;
-        ListNode* fast = head;
-        while(fast!=NULL)
-        {
-            ListNode* temp = fast->next;
-            fast->next=pre;
-            pre=fast;
-            fast=temp;
-
-        }
-        return pre;
-    }
-
-=======
        ListNode* pre=new ListNode(-1);
        pre->next=head;
        ListNode* cur = head;
@@ -262,8 +218,55 @@ public:
      }
         return res;
      }   
+    
+    //四数之和
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> res={};
+        for(int i =0;i<nums.size();i++)
+        {
+            if(i>0 && nums[i]==nums[i-1])
+            {
+                continue;
+            }
+            for(int j =i+1;j<nums.size();j++)
+            {
+                if(j>i+1 && nums[j]==nums[j-1])
+                {
+                    continue;
+                }
+                int left = j+1;
+                int right = nums.size()-1;
+                while(left < right)
+                {
+                    if((long)nums[i] + nums[j] + nums[left] + nums[right] < target)
+                    {
+                        left++;
+                    }
+                    else if((long)nums[i] + nums[j] + nums[left] + nums[right] > target)
+                    {
+                        right--;
+                    }
+                    else
+                    {
+                        res.push_back({nums[i] , nums[j] , nums[left] , nums[right]});
+                        while(left<right && nums[left]==nums[left+1])
+                        {
+                            left++;
+                        }
+                        while(left<right && nums[right]==nums[right-1])
+                        {
+                            right--;
+                        }
+                        left++;
+                        right--;
+                    }
+                }
+            }
+        }
+            return res;
+        }
     }
->>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
     
 };
 
