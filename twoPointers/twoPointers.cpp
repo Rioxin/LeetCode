@@ -50,11 +50,16 @@ public:
         }
     }
     string reverseWords(string s) {
+<<<<<<< HEAD
         int slow = 0;
+=======
+        int slow=0;
+>>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
         for(int i =0;i<s.size();i++)
         {
             if(s[i]!=' ')
             {
+<<<<<<< HEAD
             if(slow!=0)
             s[slow++]=' ';
             while(i<s.size()&&s[i]!=' ')
@@ -76,11 +81,36 @@ public:
             }
         }
         reverses(s,pre,s.size()-1);  
+=======
+                if(slow!=0)
+                {
+                    s[slow++]=' ';
+                }
+                while(i<s.size()&&s[i]!=' ')
+                {
+                    s[slow++]=s[i++];
+                }
+            }
+        }
+        s.resize(slow);
+        reverses(s,0,s.size()-1);
+        int pre=0;
+        for(int i=0;i<s.size();i++)
+        {
+            if(s[i]==' ')
+            {
+                reverses(s,pre,i-1);
+                pre=i+1;
+            }
+        }
+        reverses(s,pre,s.size()-1);
+>>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
         return s;
     }
    
     //反转链表(有问题)
     ListNode* reverseList(ListNode* head) {
+<<<<<<< HEAD
         ListNode* pre = new ListNode(-1);
         pre->next=head;
         ListNode* fast = head;
@@ -95,6 +125,145 @@ public:
         return pre;
     }
 
+=======
+       ListNode* pre=new ListNode(-1);
+       pre->next=head;
+       ListNode* cur = head;
+       while(cur)
+       {
+        ListNode* temp = cur->next;
+        cur->next=pre;
+        pre=cur;
+        cur=temp;
+       }
+       return pre;
+    }
+
+    //删除链表的倒数第 N 个结点(有问题)
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* pre=new ListNode(-1);
+        pre->next=head;
+        ListNode* slow=pre;
+        ListNode* fast=pre;
+        while(n--&&fast!=NULL)
+        {
+            fast=fast->next;
+        }
+        fast=fast->next;
+        while(fast)
+        {
+            slow=slow->next;
+            fast=fast->next;
+        }
+        slow->next=slow->next->next;
+       
+        return head;
+    }
+
+    //链表相交
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int countA=0,countB=0;
+        ListNode* A=headA;
+        ListNode* B=headB;
+        while(A)
+        {
+            A=A->next;
+            countA++;
+        }
+        while(B)
+        {
+            B=B->next;
+            countB++;
+        }
+        A=headA;
+        B=headB;
+        if(countA<countB)
+        {
+            swap(A,B);
+            swap(countA,countB);
+        }
+        int bia=countA-countB;
+        while(bia--)
+        {
+            A=A->next;
+        }
+        while(A)
+        {
+            if(A==B)
+            {
+                return A;
+            }
+            A=A->next;
+            B=B->next;
+        }
+        return NULL;
+    }
+
+    //环形链表2
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+            if(fast==slow)
+            {
+                ListNode* index1 = head;
+                ListNode* index2 = fast;
+                while(index1!=index2)
+                {
+                    index1=index1->next;
+                    index2=index2->next;
+                }
+                return index1;
+            }
+        }
+        return NULL;
+    }
+
+    //三数之和
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res;
+        sort(nums.begin(),nums.end());
+     for(int i=0;i<nums.size();i++)
+     {
+        if(i>0&&nums[i]==nums[i-1])
+        {
+            continue;
+        }
+        int left = i+1;
+        int right = nums.size()-1;
+        while(left<right)
+        {
+            if(nums[i]+nums[left]+nums[right]<0)
+            {
+                left++;
+            }
+            else if (nums[i]+nums[left]+nums[right]>0)
+            {
+                right--;
+            }
+            else
+            {
+                res.push_back({nums[i] ,nums[left] , nums[right]});
+                while(left<right && nums[left]==nums[left+1])
+                {
+                    left ++;
+                }
+                while( left < right && nums[right]==nums[right-1])
+                {
+                    right --;
+                }
+                left++;
+                right--;
+            }
+        }
+     }
+        return res;
+     }   
+    }
+>>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
     
 };
 
@@ -125,6 +294,7 @@ int main()
     // }
     // // printf("res = %d",result);
 
+<<<<<<< HEAD
     // //链表
     // int val = 6;
     // ListNode* head = new ListNode(1);
@@ -156,6 +326,39 @@ int main()
         cout << c;
     }
     cout <<"!"<< endl;
+=======
+    //链表
+    int val = 6;
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next = new ListNode(6);
+    head->next->next->next->next->next->next = new ListNode(7);
+    ListNode* resList = solution.removeNthFromEnd(head,2);
+    while (resList != nullptr) 
+    { // 当前节点不为空时
+        std::cout << resList->val << " "; // 打印当前节点的值
+        resList = resList->next; // 移动到下一个节点
+    }
+    std::cout << std::endl;
+
+       string s = "  hello world  ";
+    // int k = 2;
+    // // 打印原始字符串
+    // for (char c : s) {
+    //     cout << c;
+    // }
+    // cout <<"!"<< endl;
+
+    // // 调用反转函数
+    // string ress=solution.reverseWords(s);
+    // for (char c : ress) {
+    //     cout << c;
+    // }
+    // cout <<"!"<< endl;
+>>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
 
     return 0;
 }
