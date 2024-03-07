@@ -297,39 +297,6 @@ int main()
     // }
     // // printf("res = %d",result);
 
-<<<<<<< HEAD
-    // //链表
-    // int val = 6;
-    // ListNode* head = new ListNode(1);
-    // head->next = new ListNode(2);
-    // head->next->next = new ListNode(3);
-    // head->next->next->next = new ListNode(4);
-    // head->next->next->next->next = new ListNode(5);
-    // head->next->next->next->next->next = new ListNode(6);
-    // head->next->next->next->next->next->next = new ListNode(7);
-    // ListNode* resList = solution.removeNthFromEnd(head,1);
-    // while (resList != nullptr) 
-    // { // 当前节点不为空时
-    //     std::cout << resList->val << " "; // 打印当前节点的值
-    //     resList = resList->next; // 移动到下一个节点
-    // }
-    // std::cout << std::endl;
-
-       string s = "  hello world  ";
-    int k = 2;
-    // 打印原始字符串
-    for (char c : s) {
-        cout << c;
-    }
-    cout <<"!"<< endl;
-
-    // 调用反转函数
-    string ress=solution.reverseWords(s);
-    for (char c : ress) {
-        cout << c;
-    }
-    cout <<"!"<< endl;
-=======
     //链表
     int val = 6;
     ListNode* head = new ListNode(1);
@@ -361,7 +328,6 @@ int main()
     //     cout << c;
     // }
     // cout <<"!"<< endl;
->>>>>>> 703379c48abf337a1e566fb58101fa77fd652345
 
     return 0;
 }
