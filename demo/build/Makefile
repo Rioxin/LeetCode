@@ -117,19 +117,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ceres_demo
-
-# Build rule for target.
-ceres_demo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ceres_demo
-.PHONY : ceres_demo
-
-# fast build rule for target.
-ceres_demo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ceres_demo.dir/build.make CMakeFiles/ceres_demo.dir/build
-.PHONY : ceres_demo/fast
-
-#=============================================================================
 # Target rules for targets named gaussnewton_demo
 
 # Build rule for target.
@@ -142,13 +129,25 @@ gaussnewton_demo/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/build
 .PHONY : gaussnewton_demo/fast
 
+#=============================================================================
+# Target rules for targets named ceres_demo
+
+# Build rule for target.
+ceres_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ceres_demo
+.PHONY : ceres_demo
+
+# fast build rule for target.
+ceres_demo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ceres_demo.dir/build.make CMakeFiles/ceres_demo.dir/build
+.PHONY : ceres_demo/fast
+
 ceres_demo.o: ceres_demo.cpp.o
 .PHONY : ceres_demo.o
 
 # target to build an object file
 ceres_demo.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ceres_demo.dir/build.make CMakeFiles/ceres_demo.dir/ceres_demo.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/ceres_demo.cpp.o
 .PHONY : ceres_demo.cpp.o
 
 ceres_demo.i: ceres_demo.cpp.i
@@ -157,7 +156,6 @@ ceres_demo.i: ceres_demo.cpp.i
 # target to preprocess a source file
 ceres_demo.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ceres_demo.dir/build.make CMakeFiles/ceres_demo.dir/ceres_demo.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/ceres_demo.cpp.i
 .PHONY : ceres_demo.cpp.i
 
 ceres_demo.s: ceres_demo.cpp.s
@@ -166,8 +164,31 @@ ceres_demo.s: ceres_demo.cpp.s
 # target to generate assembly for a file
 ceres_demo.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ceres_demo.dir/build.make CMakeFiles/ceres_demo.dir/ceres_demo.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/ceres_demo.cpp.s
 .PHONY : ceres_demo.cpp.s
+
+gaussnewton_demo.o: gaussnewton_demo.cpp.o
+.PHONY : gaussnewton_demo.o
+
+# target to build an object file
+gaussnewton_demo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/gaussnewton_demo.cpp.o
+.PHONY : gaussnewton_demo.cpp.o
+
+gaussnewton_demo.i: gaussnewton_demo.cpp.i
+.PHONY : gaussnewton_demo.i
+
+# target to preprocess a source file
+gaussnewton_demo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/gaussnewton_demo.cpp.i
+.PHONY : gaussnewton_demo.cpp.i
+
+gaussnewton_demo.s: gaussnewton_demo.cpp.s
+.PHONY : gaussnewton_demo.s
+
+# target to generate assembly for a file
+gaussnewton_demo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gaussnewton_demo.dir/build.make CMakeFiles/gaussnewton_demo.dir/gaussnewton_demo.cpp.s
+.PHONY : gaussnewton_demo.cpp.s
 
 # Help Target
 help:
@@ -182,6 +203,9 @@ help:
 	@echo "... ceres_demo.o"
 	@echo "... ceres_demo.i"
 	@echo "... ceres_demo.s"
+	@echo "... gaussnewton_demo.o"
+	@echo "... gaussnewton_demo.i"
+	@echo "... gaussnewton_demo.s"
 .PHONY : help
 
 

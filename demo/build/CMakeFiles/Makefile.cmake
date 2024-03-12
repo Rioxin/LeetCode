@@ -81,6 +81,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/ceres_demo.dir/DependInfo.cmake"
   "CMakeFiles/gaussnewton_demo.dir/DependInfo.cmake"
+  "CMakeFiles/ceres_demo.dir/DependInfo.cmake"
   )

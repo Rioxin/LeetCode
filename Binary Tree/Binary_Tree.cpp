@@ -7,6 +7,7 @@
 #include <stack>
 #include <queue>
 #include <climits>
+#include <unordered_set>
 
 using namespace std;
 
@@ -478,7 +479,256 @@ public:
         if(!root->left && !root->right && targetSum ==root->val) return true;
         return hasPathSum(root->left , targetSum - root->val) || hasPathSum(root->right , targetSum - root->val);
     }
+    vector<int> target;
+    unordered_set<int> hashtarget;
+    //在受污染的二叉树中查找元素
+    void fun(TreeNode* node ,int val)
+    {
+        if(!node) return;
+        hashtarget.insert(val);
+        node->val=val;
+        fun(node->left,2*val+1);
+        fun(node->left,2*val+2);
+        return;
+    }
+    Solution(TreeNode* root) {
+        fun(root,0);
+    }
     
+    bool find(int target) {
+        if(hashtarget.find(target)!=hashtarget.end())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //左叶子之和
+    int sum;
+    void fun(TreeNode* node)
+    {
+        if(node->left && !node->left->left && !node->left->right) 
+        {
+            sum+=node->left->val;
+        }
+        if(node->left) fun(node->left);
+        if(node->right)fun(node->right);
+        return;
+    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        fun(root);
+        return sum;
+    }
+
+    //找树左下角的值
+    int maxdeepth = -1;
+    int res;
+    void fun(TreeNode* node,int deepth)
+    {
+        if(!node->left && !node->right)
+        {
+            if(deepth>maxdeepth){
+                maxdeepth=deepth;
+                res = node->val;
+            }
+            return ;
+        }
+        if(node->left)fun(node->left,deepth+1);
+        if(node->right)fun(node->right,deepth+1);
+        return;
+    }
+    int findBottomLeftValue(TreeNode* root) {
+        fun(root,0);
+        return res;
+    }
+
+    //路径总和
+    bool fun2(TreeNode* root,int targetSum )
+    {
+    if(!root->left&&!root->right)
+        {
+            if(targetSum==0) return true;
+            return false;
+           
+        }
+        if(root->left) 
+        {
+            targetSum-= root->left->val; // 递归，处理节点;
+            if(fun2(root,targetSum )) return true;
+            targetSum+= root->left->val; // 递归，处理节点;
+        }
+        if(root->right) 
+        {   
+            targetSum-= root->right->val; // 递归，处理节点;
+            if(fun2(root,targetSum)) return true;
+            targetSum+= root->right->val; // 递归，处理节点;
+        }
+        return false;
+    }
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(!root) return false;
+        return fun2(root,targetSum -root->val);
+    }
+    
+    //路径总和 II
+    vector<vector<int>> res2;
+    vector<int> path;
+    void fun(TreeNode* node, int count)
+    {
+        if(!node->left && !node->right)
+        {
+            if(count==0) res2.push_back(path);
+            return;
+        }
+        if(node->left)
+        {
+            path.push_back(node->left->val);
+            fun(node->left , count - node->left->val);
+            path.pop_back();
+        }
+        if(node->right)
+        {
+            path.push_back(node->right->val);
+            fun(node->right , count - node->right->val);
+            path.pop_back();
+        }
+        return;
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        if(!root) return res2;
+        path.push_back(root->val);
+        fun(root,targetSum-root->val);
+        return res2;
+    }
+
+    //最大二叉树
+    TreeNode* fun(vector<int> nums , int left ,int right)
+    {
+        if(left<=right) return NULL;
+        int maxI = left;
+        for(int i = left;i<right;i++)
+        {
+            if(nums[i]>nums[maxI])
+            {
+                maxI=i;
+            }
+        }
+        TreeNode* root = new TreeNode(nums[maxI]);
+        root->left = fun(nums,left,maxI+1);
+        root->right = fun(nums,maxI+1,right);
+        return root;
+    }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return fun(nums,0,nums.size()-1);
+    }
+
+    //合并二叉树
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+       if(!root1) return root2;
+       if(!root2) return root1;
+       root1->val+=root2->val;
+       root1->left=mergeTrees(root1->left,root2->left);
+       root1->right=mergeTrees(root1->right,root2->right);
+       return root1;
+    }
+
+    //二叉搜索树中的搜索
+    TreeNode* searchBST(TreeNode* root, int val) {
+        // while(root){
+        //     if(root->val < val)root=root->right;
+        //     else if(root->val > val)root=root->left;
+        //     else return root;
+        // }
+        // return NULL;
+        if(root->val==val ||!root) return root;
+        TreeNode* res;
+        if(root->val<val) 
+        {
+            res = searchBST(root->right,val);
+        }
+        if(root->val>val) 
+        {
+            res = searchBST(root->left,val);
+        }
+        return res;
+    }
+    //验证二叉搜索树
+    TreeNode* pre =NULL;
+    bool isValidBST(TreeNode* root)
+    {
+        // stack<TreeNode*> st;
+        // TreeNode* cur = root;
+        // TreeNode* pre = NULL;
+        // while(cur || !st.empty())
+        // {
+        //     if(cur)
+        //     {
+        //         st.push(cur);
+        //         cur=cur->left;
+        //     }
+        //     else{
+        //         cur = st.top();
+        //         st.pop();
+        //         if(pre && pre->val >= cur->val) return false;
+        //         pre= cur;
+        //         cur=cur->right;
+        //     }
+        // }
+        // return true;
+        if(!root) return true;
+        bool left = isValidBST(root->left);
+        if(pre && pre->val >= root->val) return false;
+        pre=root;
+        return  left && isValidBST(root->right);
+    }
+
+    //二叉搜索树的最小绝对差
+    int res = INT_MAX;
+    void fun(TreeNode* node)
+    {
+        if(!node) return;
+        fun(node->left);
+        if(pre && abs(node->val - pre->val)<res)  res = node->val;
+        pre = node;
+        fun(node->right);
+    }
+    int getMinimumDifference(TreeNode* root) {
+        fun(root);
+        return res;
+    }
+
+    //二叉搜索树中的众数
+    int count = 0;
+    int maxcount = 0;
+    vector<int> res3;
+    void fun(TreeNode* node)
+    {
+        if(!node) return;
+        fun(node->left);
+        if (pre == NULL) { // 第一个节点
+            count = 1;
+        } else if (pre->val == node->val) { // 与前一个节点数值相同
+            count++;
+        } else { // 与前一个节点数值不同
+            count = 1;
+        }
+        pre = node; // 更新上一个节点
+        if(count > maxcount)
+        {
+            maxcount = count;
+            res3.clear();
+            res3.push_back(node->val);
+        }
+        if(count == maxcount)
+        {
+            res3.push_back(node->val);
+        }
+        fun(node->right);
+    }   
+    vector<int> findMode(TreeNode* root) {
+        fun(root);
+        return res3;
+    } 
 };
 
 TreeNode* createTree() {
