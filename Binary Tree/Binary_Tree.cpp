@@ -438,13 +438,45 @@ public:
     {
         if(!node->left && !node->right)
         {
-            if(deepth)
+            if(deepth>max)
+            {
+                max=deepth;
+                res = node->val;
+            }
+            return;
         }
+        if(node->left)
+        {
+            fun(node->left,deepth+1);
+        }
+        if(node->right)
+        {
+            fun(node->right,deepth+1);
+        }
+        return;
     }
     //找树左下角的值
     int findBottomLeftValue(TreeNode* root) {
-        
+        fun(root,1);
+        return res;
+    }
 
+    //路径总和
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        // stack<pair<TreeNode*,int>> st;
+        // if(!root) return false;
+        // st.push(pair<TreeNode*,int>(root,root->val));
+        // while(!st.empty())
+        // {
+        //     pair<TreeNode*,int> node = st.top();st.pop();
+        //     if(!node.first->left && !node.first->right && targetSum==node.second) return true;
+        //     if(node.first->right) st.push(pair<TreeNode*,int>(node.first->right,node.second+node.first->right->val));
+        //     if(node.first->left) st.push(pair<TreeNode*,int>(node.first->left,node.second+node.first->left->val));
+        // }
+        // return false;
+        if(!root) return false;
+        if(!root->left && !root->right && targetSum ==root->val) return true;
+        return hasPathSum(root->left , targetSum - root->val) || hasPathSum(root->right , targetSum - root->val);
     }
     
 };
