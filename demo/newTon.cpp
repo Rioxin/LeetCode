@@ -18,7 +18,7 @@ public:
             res = abs(y -x*x);
             if(res < 1e-6)
             {
-                cout<<"count = "<<count<<endl;
+                
                 return x;
             }
         }
