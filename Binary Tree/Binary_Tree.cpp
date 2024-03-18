@@ -729,6 +729,112 @@ public:
         fun(root);
         return res3;
     } 
+
+    //二叉搜索树的最近公共祖先
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root) return root;
+        if(root->val < p->val && root->val < q->val) return lowestCommonAncestor(root->left,p,q);
+
+        else if(root->val > p->val && root->val > q->val) return lowestCommonAncestor(root->right,p,q);
+        else return root;
+    }
+
+    //二叉搜索树中的插入操作
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if(!root) 
+        {
+            TreeNode* node = new TreeNode(val);
+            return node;
+        }
+        if(root->val<val) return insertIntoBST(root->right,val);
+        if(root->val>val) return insertIntoBST(root->left,val);
+        return root;
+    }
+
+    //删除二叉搜索树中的节点
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root) return root;
+        if(root->val == key)
+        {
+            if(!root->left && !root->right)
+            {
+                delete root;
+                return NULL;
+            } 
+            else if(!root->left)
+            {
+                TreeNode* node = root->right;
+                delete root;
+                return node;
+            }
+            else if(!root->right)
+            {
+                TreeNode* node = root->left;
+                delete root;
+                return node;
+            }
+            else 
+            {
+                TreeNode* node = root->right;
+                while(node->left)
+                {
+                    node=node->left;
+                }
+                node->left = root->left;
+                TreeNode* temp = root->right;
+                delete root;
+                return temp;
+            }
+        }
+        if(root->val > key) root->left=deleteNode(root->left,key);
+        if(root->val < key) root->right=deleteNode(root->right,key);
+        return root;
+    }
+
+    //修剪二叉搜索树
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        if(!root) return root;
+        if(root->val < low)
+        {
+            return trimBST(root->right,low,high);
+        }
+        if(root->val > high)
+        {
+            return trimBST(root->left,low,high);
+        }
+        root->left = trimBST(root->left,low,high);
+        root->right = trimBST(root->right,low,high);
+        return root;
+    }
+
+    //将有序数组转换为二叉搜索树
+    TreeNode* fun(vector<int>& nums,int left,int right)
+    {
+        if(left>=right) return NULL;
+        int mid = left+(right-left)>>1;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = fun(nums,left,mid-1);
+        root->right= fun(nums,mid+1,right);
+        return root;
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return fun(nums,0,nums.size()-1);
+    }
+
+    //把二叉搜索树转换为累加树
+    TreeNode* pre = NULL;
+    TreeNode* convertBST(TreeNode* root) {
+        if(!root) return NULL;
+        convertBST(root->right);
+        if(pre) 
+        {
+            root->val+=pre->val;     
+        }
+        pre = root;
+        convertBST(root->left);
+        return root;
+    }
+
 };
 
 TreeNode* createTree() {
