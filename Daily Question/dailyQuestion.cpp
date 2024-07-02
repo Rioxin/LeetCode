@@ -48,6 +48,57 @@ public:
         }
         return res;
     }
+
+    // 3115. 质数的最大距离
+    bool isPrime(int n) {
+        if(n<=1) return false;
+        if(n==2) return true;
+        for(int i = 2; i*i<=n; i++) {
+            if(n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    int maximumPrimeDifference(vector<int>& nums) {
+        int pre =0;
+        while(!isPrime(nums[pre]))
+        {
+            pre++;
+        }
+        cout<<pre<<endl;
+        int res = 0;
+        for(int i =pre;i<nums.size();i++)
+        {
+            if(isPrime(nums[i]))
+            {
+                res = max(res,i-pre);
+            }
+        }
+        return res;
+    }
+    // 3033. 修改矩阵
+    vector<vector<int>> modifiedMatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        for(int i =0;i<n;i++)
+        {
+            int maxNum = -1;
+            for(int j =0;j<m;j++)
+            {
+                maxNum = max(maxNum,matrix[j][i]);
+            }
+            for(int j =0;j<m;j++)
+            {
+                if(matrix[j][i]==-1)
+                {
+                    matrix[j][i] = maxNum;
+                }
+            }
+        }
+        return matrix;
+    }
 };
 
 
@@ -57,8 +108,12 @@ int main()
  // 创建 Solution 对象
     Solution solution;
 
-    std::vector<int> nums1 = {5,3,3};
-    std::cout << "Maximum sum of nums1: " << solution.maxArrayValue(nums1) << std::endl;
+     // 创建测试用例
+    vector<int> nums = {4,2,9,5,3};
+
+    // 调用函数并打印结果
+    int maxDiff = solution.maximumPrimeDifference(nums);
+    cout << "Maximum prime difference: " << maxDiff << endl;
 
     return 0;
 }
